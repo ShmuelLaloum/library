@@ -1,0 +1,208 @@
+{
+  "libraryName": "City Central Library",
+  "address": {
+    "street": "Main St 123",
+    "city": "Metropolis",
+    "zip": "12345"
+  },
+  "books": [
+    {
+      "id": 1,
+      "title": "Harry Potter and the Sorcerer's Stone",
+      "author": {
+        "firstName": "J.K.",
+        "lastName": "Rowling",
+        "birthYear": 1965
+      },
+      "genres": ["Fantasy", "Adventure"],
+      "read": false,
+      "ratings": {
+        "average": 4.8,
+        "reviews": [
+          { "user": "Alice", "score": 5, "comment": "Loved it!" },
+          { "user": "Bob", "score": 4, "comment": "Great story." }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "title": "The Hobbit",
+      "author": {
+        "firstName": "J.R.R.",
+        "lastName": "Tolkien",
+        "birthYear": 1892
+      },
+      "genres": ["Fantasy"],
+      "read": true,
+      "ratings": {
+        "average": 4.7,
+        "reviews": [
+          { "user": "Charlie", "score": 5, "comment": "Classic!" },
+          { "user": "Dana", "score": 4, "comment": "Really enjoyed it." }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "title": "1984",
+      "author": {
+        "firstName": "George",
+        "lastName": "Orwell",
+        "birthYear": 1903
+      },
+      "genres": ["Dystopian", "Political Fiction"],
+      "read": true,
+      "ratings": {
+        "average": 4.6,
+        "reviews": [
+          { "user": "Eve", "score": 5, "comment": "Very powerful." },
+          { "user": "Frank", "score": 4, "comment": "Thought-provoking." }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "title": "Clean Code",
+      "author": {
+        "firstName": "Robert",
+        "lastName": "Martin",
+        "birthYear": 1952
+      },
+      "genres": ["Programming", "Software Engineering"],
+      "read": false,
+      "ratings": {
+        "average": 4.9,
+        "reviews": [
+          {
+            "user": "Grace",
+            "score": 5,
+            "comment": "Must read for developers."
+          },
+          {
+            "user": "Henry",
+            "score": 5,
+            "comment": "Changed how I write code."
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "title": "The Pragmatic Programmer",
+      "author": {
+        "firstName": "Andrew",
+        "lastName": "Hunt",
+        "birthYear": 1964
+      },
+      "genres": ["Programming", "Software Engineering"],
+      "read": true,
+      "ratings": {
+        "average": 4.8,
+        "reviews": [
+          { "user": "Ian", "score": 5, "comment": "Super practical." },
+          { "user": "Julia", "score": 4, "comment": "Very insightful." }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "title": "To Kill a Mockingbird",
+      "author": {
+        "firstName": "Harper",
+        "lastName": "Lee",
+        "birthYear": 1926
+      },
+      "genres": ["Classic", "Drama"],
+      "read": false,
+      "ratings": {
+        "average": 4.7,
+        "reviews": [
+          { "user": "Kevin", "score": 5, "comment": "Emotional and deep." },
+          { "user": "Laura", "score": 4, "comment": "Very moving story." }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "author": {
+        "firstName": "J.R.R.",
+        "lastName": "Tolkien",
+        "birthYear": 1892
+      },
+      "genres": ["Fantasy", "Adventure"],
+      "read": true,
+      "ratings": {
+        "average": 4.9,
+        "reviews": [
+          {
+            "user": "Michael",
+            "score": 5,
+            "comment": "Epic and unforgettable."
+          },
+          { "user": "Nina", "score": 5, "comment": "A masterpiece." }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "title": "Atomic Habits",
+      "author": {
+        "firstName": "James",
+        "lastName": "Clear",
+        "birthYear": 1986
+      },
+      "genres": ["Self-Help", "Personal Development"],
+      "read": false,
+      "ratings": {
+        "average": 4.6,
+        "reviews": [
+          { "user": "Omer", "score": 5, "comment": "Very practical advice." },
+          { "user": "Ruth", "score": 4, "comment": "Easy to read and useful." }
+        ]
+      }
+    }
+  ],
+  "members": [
+    {
+      "id": 101,
+      "name": "Alice Johnson",
+      "membershipType": "Premium",
+      "borrowedBooks": [
+        { "bookId": 1, "borrowedDate": "2025-08-01", "returnDate": null }
+      ]
+    },
+    {
+      "id": 102,
+      "name": "Bob Smith",
+      "membershipType": "Standard",
+      "borrowedBooks": [
+        {
+          "bookId": 2,
+          "borrowedDate": "2025-07-20",
+          "returnDate": "2025-08-05"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "name": "Charlie Brown",
+      "membershipType": "Premium",
+      "borrowedBooks": [
+        { "bookId": 3, "borrowedDate": "2025-08-10", "returnDate": null }
+      ]
+    },
+    {
+      "id": 104,
+      "name": "Dana White",
+      "membershipType": "Standard",
+      "borrowedBooks": [
+        {
+          "bookId": 4,
+          "borrowedDate": "2025-08-02",
+          "returnDate": "2025-08-15"
+        }
+      ]
+    }
+  ]
+}
