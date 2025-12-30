@@ -1,25 +1,28 @@
-import type { BookItemProps, Review } from "../types/type";
+import type { BookItemProps } from "../types/type";
 import "../styles/style.css";
 import { useState } from "react";
+import Reviews from "./Reviews";
+import AddReviewDialog from "./AddReviewDialog";
+import { calcAverage } from "../utils/BookItemUtils";
 
 export default function BookItem({ book }: BookItemProps) {
-  const [reviews, setReviews] = useState<Review[]>(book.ratings.reviews);
-  const [average, setAverage] = useState<number>(book.ratings.average);
-  const [showReviews, setShowReviews] = useState<boolean>(false);
-  const [showDialog, setShowDialog] = useState<boolean>(false);
-  const [newUser, setNewUser] = useState<string>("");
-  const [newComment, setNewComment] = useState<string>("");
+  const [reviews, setReviews] = useState(book.ratings.reviews);
+  const [average, setAverage] = useState(calcAverage(book.ratings.reviews));
+  const [showReviews, setShowReviews] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [newUser, setNewUser] = useState("");
+  const [newComment, setNewComment] = useState("");
   const [newScore, setNewScore] = useState<number | "">(5);
-  const [read, setRead] = useState<boolean>(book.read);
+  const [read, setRead] = useState(book.read);
 
   const handleCheckboxChange = () => {
-    setRead(!read);
+    setRead((prev) => !prev);
   };
 
   const handleAddReview = () => {
     if (!newUser || !newComment || newScore === "") return;
 
-    const newReview: Review = {
+    const newReview = {
       user: newUser,
       comment: newComment,
       score: Number(newScore),
@@ -28,11 +31,7 @@ export default function BookItem({ book }: BookItemProps) {
     const updatedReviews = [...reviews, newReview];
     setReviews(updatedReviews);
 
-    const newAverage =
-      updatedReviews.reduce((acc, r) => acc + r.score, 0) /
-      updatedReviews.length;
-
-    setAverage(parseFloat(newAverage.toFixed(1)));
+    setAverage(calcAverage(updatedReviews));
 
     setShowDialog(false);
     setNewUser("");
@@ -67,65 +66,29 @@ export default function BookItem({ book }: BookItemProps) {
       <div className="reviews-section">
         <button
           className="button-dynamic"
-          onClick={() => setShowReviews(!showReviews)}
+          onClick={() => setShowReviews((prev) => !prev)}
         >
           {showReviews ? "Hide Reviews" : "View Reviews"}
         </button>
 
         {showReviews && (
-          <div className="reviews-content">
-            <div className="reviews-row">
-              {reviews.map((rev, idx) => (
-                <div key={idx} className="review-item">
-                  <strong>{rev.user}</strong>: {rev.comment} ({rev.score}⭐)
-                </div>
-              ))}
-            </div>
-
-            <button
-              className="button-dynamic"
-              onClick={() => setShowDialog(true)}
-            >
-              Add Review
-            </button>
-          </div>
+          <Reviews
+            reviews={reviews}
+            onAddReviewClick={() => setShowDialog(true)}
+          />
         )}
 
         {showDialog && (
-          <div className="dialog-overlay">
-            <div className="dialog">
-              <h4>Add a review</h4>
-              <input
-                type="text"
-                placeholder="Your name"
-                value={newUser}
-                onChange={(e) => setNewUser(e.target.value)}
-              />
-              <textarea
-                placeholder="Your review"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              />
-              <input
-                type="number"
-                min={1}
-                max={5}
-                value={newScore}
-                onChange={(e) => setNewScore(Number(e.target.value))}
-              />
-              <div className="dialog-buttons">
-                <button onClick={handleAddReview} className="button-dynamic">
-                  Add
-                </button>
-                <button
-                  onClick={() => setShowDialog(false)}
-                  className="button-dynamic"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
+          <AddReviewDialog
+            newUser={newUser}
+            newComment={newComment}
+            newScore={newScore}
+            onUserChange={setNewUser}
+            onCommentChange={setNewComment}
+            onScoreChange={setNewScore}
+            onAdd={handleAddReview}
+            onClose={() => setShowDialog(false)}
+          />
         )}
       </div>
     </div>

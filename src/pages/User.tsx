@@ -5,7 +5,7 @@ import { useState } from "react";
 import library from "../data/library.json";
 import type { BookProps } from "../types/type";
 import genres from "../data/genres";
-import SearchInput from "../components/searchInput";
+import SearchInput from "../components/SearchInput";
 import AddBookDialog from "../components/AddBookDialog";
 
 export default function User() {
