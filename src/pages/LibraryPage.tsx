@@ -1,5 +1,5 @@
 import BookList from "../components/BookList";
-import { useNavigate } from "react-router-dom";
+import MemberList from "../components/MemberList";
 import "../styles/style.css";
 import { useState } from "react";
 import library from "../data/library.json";
@@ -8,8 +8,12 @@ import genres from "../data/genres";
 import SearchInput from "../components/SearchInput";
 import AddBookDialog from "../components/AddBookDialog";
 
-export default function User() {
-  const navigate = useNavigate();
+type LibraryPageProps = {
+  showMembers?: boolean;
+  navigateTo: () => void;
+};
+
+export default function LibraryPage({ showMembers = false, navigateTo }: LibraryPageProps) {
   const [filterByName, setFilterByName] = useState<string>("");
   const [filterByGenres, setFilterByGenres] = useState<string>("");
   const [genresList, setGenresList] = useState<string[]>(genres);
@@ -19,8 +23,6 @@ export default function User() {
   const [newTitle, setNewTitle] = useState<string>("");
   const [newAuthor, setNewAuthor] = useState<string>("");
   const [newGenre, setNewGenre] = useState<string>("");
-
-  const handleClick = () => navigate("/admin");
 
   const handleAddBook = () => {
     if (!newTitle || !newAuthor || !newGenre) return;
@@ -56,50 +58,26 @@ export default function User() {
     setNewGenre("");
     setShowDialog(false);
   };
-
   return (
     <div className="admin-container">
       <h1 className="admin-title">City central library</h1>
-
       <SearchInput value={filterByName} onChange={setFilterByName} />
-
       <label>
         Choose a genre:
-        <input
-          list="genres"
-          value={filterByGenres}
-          onChange={(e) => setFilterByGenres(e.target.value)}
-          placeholder="filter by a genre"
-        />
+        <input list="genres" value={filterByGenres} onChange={(e) => setFilterByGenres(e.target.value)} placeholder="choose a gener" />
       </label>
-
-      <datalist id="genres">
-        {genresList.map((genre) => (
-          <option key={genre} value={genre} />
-        ))}
-      </datalist>
+      <datalist id="genres">{genresList.map(g => <option key={g} value={g} />)}</datalist>
 
       <div className="admin-content">
         <div className="left-side">
-          <BookList
-            filterByName={filterByName}
-            filterByGenres={filterByGenres}
-            books={books}
-          />
+          <BookList filterByName={filterByName} filterByGenres={filterByGenres} books={books} />
         </div>
-
         <div className="right-side">
-          <>
-            <button className="button-dynamic" onClick={handleClick}>
-              admin
-            </button>
-            <button
-              className="button-dynamic"
-              onClick={() => setShowDialog(true)}
-            >
-              Add Book
-            </button>
-          </>
+          <div className="action-buttons">
+            <button className="button-dynamic" onClick={navigateTo}>Switch Page</button>
+            <button className="button-dynamic" onClick={() => setShowDialog(true)}>Add Book</button>
+          </div>
+          {showMembers && <MemberList />}
         </div>
       </div>
 
