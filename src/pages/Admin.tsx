@@ -7,6 +7,7 @@ import library from "../data/library.json";
 import type { BookProps } from "../types/type";
 import genres from "../data/genres";
 import SearchInput from "../components/searchInput";
+import AddBookDialog from "../components/AddBookDialog";
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -106,40 +107,16 @@ export default function Admin() {
       </div>
 
       {showDialog && (
-        <div className="dialog-overlay">
-          <div className="dialog">
-            <h4>Add a Book</h4>
-            <input
-              type="text"
-              placeholder="Book Title"
-              value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Author Name"
-              value={newAuthor}
-              onChange={(e) => setNewAuthor(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Genre"
-              value={newGenre}
-              onChange={(e) => setNewGenre(e.target.value)}
-            />
-            <div className="dialog-buttons">
-              <button className="button-dynamic" onClick={handleAddBook}>
-                Add
-              </button>
-              <button
-                className="button-dynamic"
-                onClick={() => setShowDialog(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
+        <AddBookDialog
+          title={newTitle}
+          author={newAuthor}
+          genre={newGenre}
+          onTitleChange={setNewTitle}
+          onAuthorChange={setNewAuthor}
+          onGenreChange={setNewGenre}
+          onAdd={handleAddBook}
+          onCancel={() => setShowDialog(false)}
+        />
       )}
     </div>
   );

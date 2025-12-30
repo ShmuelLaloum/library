@@ -2,10 +2,6 @@ import type { Filter, BookProps } from "../types/type";
 import BookItem from "./BookItem";
 import "../styles/style.css";
 
-/* =========================
-   Filtering helper functions
-   ========================= */
-
 function matchesTextFilter(book: BookProps, filterByName: string): boolean {
   if (!filterByName) return true;
 
@@ -28,10 +24,6 @@ function matchesGenreFilter(book: BookProps, filterByGenres: string): boolean {
     genre.toLowerCase().includes(genreFilter)
   );
 }
-
-/* =========================
-   BookList Component
-   ========================= */
 
 export default function BookList({
   filterByName,
