@@ -13,7 +13,10 @@ type LibraryPageProps = {
   navigateTo: () => void;
 };
 
-export default function LibraryPage({ showMembers = false, navigateTo }: LibraryPageProps) {
+export default function LibraryPage({
+  showMembers = false,
+  navigateTo,
+}: LibraryPageProps) {
   const [filterByName, setFilterByName] = useState<string>("");
   const [filterByGenres, setFilterByGenres] = useState<string>("");
   const [genresList, setGenresList] = useState<string[]>(genres);
@@ -64,18 +67,39 @@ export default function LibraryPage({ showMembers = false, navigateTo }: Library
       <SearchInput value={filterByName} onChange={setFilterByName} />
       <label>
         Choose a genre:
-        <input list="genres" value={filterByGenres} onChange={(e) => setFilterByGenres(e.target.value)} placeholder="choose a gener" />
+        <input
+          onFocus={() => setFilterByGenres("")}
+          list="genres"
+          value={filterByGenres}
+          onChange={(e) => setFilterByGenres(e.target.value)}
+          placeholder="choose a gener"
+        />
       </label>
-      <datalist id="genres">{genresList.map(g => <option key={g} value={g} />)}</datalist>
+      <datalist id="genres">
+        {genresList.map((g) => (
+          <option key={g} value={g} />
+        ))}
+      </datalist>
 
       <div className="admin-content">
         <div className="left-side">
-          <BookList filterByName={filterByName} filterByGenres={filterByGenres} books={books} />
+          <BookList
+            filterByName={filterByName}
+            filterByGenres={filterByGenres}
+            books={books}
+          />
         </div>
         <div className="right-side">
           <div className="action-buttons">
-            <button className="button-dynamic" onClick={navigateTo}>Switch Page</button>
-            <button className="button-dynamic" onClick={() => setShowDialog(true)}>Add Book</button>
+            <button className="button-dynamic" onClick={navigateTo}>
+              Switch Page
+            </button>
+            <button
+              className="button-dynamic"
+              onClick={() => setShowDialog(true)}
+            >
+              Add Book
+            </button>
           </div>
           {showMembers && <MemberList />}
         </div>
