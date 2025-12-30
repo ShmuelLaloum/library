@@ -3,14 +3,17 @@ import MemberList from "../components/MemberList";
 import { useNavigate } from "react-router-dom";
 import "../styles/style.css";
 import { useState } from "react";
-import library from "../data/library.json"; 
+import library from "../data/library.json";
 import type { BookProps } from "../types/type";
+import genres from "../data/genres";
+import SearchInput from "../components/searchInput";
 
 export default function Admin() {
   const navigate = useNavigate();
   const [filterByName, setFilterByName] = useState<string>("");
   const [filterByGenres, setFilterByGenres] = useState<string>("");
-  const [books, setBooks] = useState<BookProps[]>(library.books); 
+  const [genresList, setGenresList] = useState<string[]>(genres);
+  const [books, setBooks] = useState<BookProps[]>(library.books);
 
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [newTitle, setNewTitle] = useState<string>("");
@@ -20,11 +23,15 @@ export default function Admin() {
   const handleClick = () => navigate("/");
 
   const handleAddBook = () => {
-    if (!newTitle || !newAuthor || !newGenre) return; 
+    if (!newTitle || !newAuthor || !newGenre) return;
 
-    const authorParts = newAuthor.split(" "); 
+    const authorParts = newAuthor.split(" ");
     const firstName = authorParts[0];
     const lastName = authorParts.slice(1).join(" ") || "";
+
+    if (!genresList.includes(newGenre)) {
+      setGenresList([...genresList, newGenre]);
+    }
 
     const newBook = {
       id: books.length + 1,
@@ -32,7 +39,7 @@ export default function Admin() {
       author: {
         firstName,
         lastName,
-        birthYear: 2000, 
+        birthYear: 2000,
       },
       genres: [newGenre],
       read: false,
@@ -54,12 +61,7 @@ export default function Admin() {
     <div className="admin-container">
       <h1 className="admin-title">City central library</h1>
 
-      <input
-        type="text"
-        value={filterByName}
-        onChange={(e) => setFilterByName(e.target.value)}
-        placeholder="Search a book by author or title"
-      />
+      <SearchInput value={filterByName} onChange={setFilterByName} />
 
       <label>
         Choose a genre:
@@ -72,10 +74,9 @@ export default function Admin() {
       </label>
 
       <datalist id="genres">
-        <option value="Fantasy" />
-        <option value="Adventure" />
-        <option value="Political Fiction" />
-        <option value="Classic" />
+        {genresList.map((genre) => (
+          <option key={genre} value={genre} />
+        ))}
       </datalist>
 
       <div className="admin-content">
@@ -83,16 +84,19 @@ export default function Admin() {
           <BookList
             filterByName={filterByName}
             filterByGenres={filterByGenres}
-            books={books} 
+            books={books}
           />
         </div>
 
         <div className="right-side">
-          <div className="admin-buttons">
+          <div className="action-buttons">
             <button className="button-dynamic" onClick={handleClick}>
-              User
+              user
             </button>
-            <button className="button-dynamic" onClick={() => setShowDialog(true)}>
+            <button
+              className="button-dynamic"
+              onClick={() => setShowDialog(true)}
+            >
               Add Book
             </button>
           </div>
@@ -127,7 +131,10 @@ export default function Admin() {
               <button className="button-dynamic" onClick={handleAddBook}>
                 Add
               </button>
-              <button className="button-dynamic" onClick={() => setShowDialog(false)}>
+              <button
+                className="button-dynamic"
+                onClick={() => setShowDialog(false)}
+              >
                 Cancel
               </button>
             </div>

@@ -2,8 +2,7 @@ export type MemberItemProps = {
   MemberId: number;
 };
 export type BookItemProps = {
-  bookId: number;
-  books: BookProps[];
+  book: BookProps;
 };
 export type BookReviewModal = {
   user: string;

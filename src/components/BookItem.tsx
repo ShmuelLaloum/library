@@ -2,27 +2,19 @@ import type { BookItemProps, Review } from "../types/type";
 import "../styles/style.css";
 import { useState } from "react";
 
-export default function BookItem({ bookId , books }: BookItemProps) {
-  const book = books.find((book) => book.id === bookId);
-
-  const [reviews, setReviews] = useState<Review[]>(
-    book ? book.ratings.reviews : []
-  );
-  const [average, setAverage] = useState<number>(
-    book ? book.ratings.average : 0
-  );
+export default function BookItem({ book }: BookItemProps) {
+  const [reviews, setReviews] = useState<Review[]>(book.ratings.reviews);
+  const [average, setAverage] = useState<number>(book.ratings.average);
   const [showReviews, setShowReviews] = useState<boolean>(false);
   const [showDialog, setShowDialog] = useState<boolean>(false);
   const [newUser, setNewUser] = useState<string>("");
   const [newComment, setNewComment] = useState<string>("");
   const [newScore, setNewScore] = useState<number | "">(5);
-  const [read, setRead] = useState<boolean>(book ? book.read : false);
+  const [read, setRead] = useState<boolean>(book.read);
 
   const handleCheckboxChange = () => {
     setRead(!read);
   };
-
-  if (!book) return <p>book not found</p>;
 
   const handleAddReview = () => {
     if (!newUser || !newComment || newScore === "") return;
@@ -39,6 +31,7 @@ export default function BookItem({ bookId , books }: BookItemProps) {
     const newAverage =
       updatedReviews.reduce((acc, r) => acc + r.score, 0) /
       updatedReviews.length;
+
     setAverage(parseFloat(newAverage.toFixed(1)));
 
     setShowDialog(false);

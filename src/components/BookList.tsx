@@ -2,30 +2,55 @@ import type { Filter, BookProps } from "../types/type";
 import BookItem from "./BookItem";
 import "../styles/style.css";
 
-export default function BookList({ filterByName, filterByGenres, books }: Filter & { books: BookProps[] }) {
-  const filteredBooks = books.filter((book) => {  
-    const filter = filterByName.toLowerCase();
-    const titleMatch = book.title.toLowerCase().startsWith(filter);
-    const authorMatch = `${book.author.firstName} ${book.author.lastName}`
-      .toLowerCase()
-      .startsWith(filter);
+/* =========================
+   Filtering helper functions
+   ========================= */
 
-    const genreFilter = filterByGenres.toLowerCase();
-    const genreMatch = !filterByGenres 
-      ? true
-      : book.genres.some((genre) =>
-          genre.toLowerCase().startsWith(genreFilter)
-        );
+function matchesTextFilter(book: BookProps, filterByName: string): boolean {
+  if (!filterByName) return true;
 
-    return (titleMatch || authorMatch) && genreMatch;
-  });
+  const filter = filterByName.toLowerCase();
+
+  const titleMatch = book.title.toLowerCase().includes(filter);
+  const authorMatch = `${book.author.firstName} ${book.author.lastName}`
+    .toLowerCase()
+    .includes(filter);
+
+  return titleMatch || authorMatch;
+}
+
+function matchesGenreFilter(book: BookProps, filterByGenres: string): boolean {
+  if (!filterByGenres) return true;
+
+  const genreFilter = filterByGenres.toLowerCase();
+
+  return book.genres.some((genre) =>
+    genre.toLowerCase().includes(genreFilter)
+  );
+}
+
+/* =========================
+   BookList Component
+   ========================= */
+
+export default function BookList({
+  filterByName,
+  filterByGenres,
+  books,
+}: Filter & { books: BookProps[] }) {
+  const filteredBooks = books.filter(
+    (book) =>
+      matchesTextFilter(book, filterByName) &&
+      matchesGenreFilter(book, filterByGenres)
+  );
 
   return (
-    <div className="book-list">
+    <section className="book-list">
       <h1>Books</h1>
+
       {filteredBooks.map((book) => (
-        <BookItem key={book.id} bookId={book.id} books={books}/>
+        <BookItem key={book.id} book={book} />
       ))}
-    </div>
+    </section>
   );
 }
