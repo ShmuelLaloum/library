@@ -1,6 +1,20 @@
-export type MemberItemProps = {
-  MemberId: number;
+export type BorrowedBook = {
+  bookId: number;
+  borrowedDate: string;
+  returnDate: string | null;
 };
+
+export type Member = {
+  id: number;
+  name: string;
+  membershipType: string;
+  borrowedBooks: BorrowedBook[];
+};
+
+export type MemberItemProps = {
+  member: Member;
+};
+
 export type BookItemProps = {
   book: BookProps;
 };

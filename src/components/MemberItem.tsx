@@ -2,13 +2,7 @@ import type { MemberItemProps } from "../types/type";
 import library from "../data/library.json";
 import "../styles/style.css";
 
-export default function MemberItem({ MemberId }: MemberItemProps) {
-  const member = library.members.find((member) => member.id === MemberId);
-
-  if (!member) {
-    return <p>Member not found</p>;
-  }
-
+export default function MemberItem({ member }: MemberItemProps) {
   return (
     <div className="member-card">
       <h3>{member.name}</h3>
