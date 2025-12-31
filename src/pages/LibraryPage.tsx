@@ -7,6 +7,8 @@ import type { BookProps } from "../types/type";
 import genres from "../data/genres";
 import SearchInput from "../components/SearchInput";
 import AddBookDialog from "../components/AddBookDialog";
+import FilterByName from "../components/FilterByName";
+import FilterByGenres from "../components/FilterByGenres";
 
 type LibraryPageProps = {
   showMembers?: boolean;
@@ -61,6 +63,15 @@ export default function LibraryPage({
     setNewGenre("");
     setShowDialog(false);
   };
+  const filteredBooks = books.filter(
+    (book) =>
+      FilterByName(book, filterByName) && FilterByGenres(book, filterByGenres)
+  );
+  const getRightSideClass = () => {
+    if (filteredBooks.length === 0) return "right-side-no-book";
+    if (filteredBooks.length === 1) return "right-side-one-book";
+    return "right-side";
+  };
   return (
     <div className="admin-container">
       <h1 className="admin-title">City central library</h1>
@@ -83,13 +94,9 @@ export default function LibraryPage({
 
       <div className="admin-content">
         <div className="left-side">
-          <BookList
-            filterByName={filterByName}
-            filterByGenres={filterByGenres}
-            books={books}
-          />
+          <BookList Books={filteredBooks} />
         </div>
-        <div className="right-side">
+        <div className={getRightSideClass()}>
           <div className="action-buttons">
             <button className="button-dynamic" onClick={navigateTo}>
               Switch Page

@@ -46,6 +46,9 @@ export type BookProps = {
     reviews: ReviewProps[];
   };
 };
+export type BooksProps = {
+  Books : BookProps[]
+}
 export type ReviewProps = {
   user: string;
   score: number;
